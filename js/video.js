@@ -98,8 +98,25 @@ async function perform(net) {
     const edgeBlurAmount = 2;
     const flipHorizontal = true;
 
-    bodyPix.drawBokehEffect(
-      canvas, videoElement, segmentation, backgroundBlurAmount,
-      edgeBlurAmount, flipHorizontal);
-  }
+        const maskBackground = true;
+        // Convert the segmentation into a mask to darken the background.
+        const foregroundColor = { r: 0, g: 0, b: 0, a: 0 };
+        const backgroundColor = { r: 0, g: 255, b: 0, a: 255 };
+        const backgroundDarkeningMask = bodyPix.toMask(
+            segmentation, foregroundColor, backgroundColor);
+
+        const opacity = 1;
+        const maskBlurAmount = 0.1;
+
+
+
+        //   bodyPix.drawBokehEffect(
+        //     canvas, videoElement, segmentation, backgroundBlurAmount,
+        //     edgeBlurAmount, flipHorizontal);
+        // }
+        bodyPix.drawMask(
+            canvas, videoElement, backgroundDarkeningMask, opacity, maskBlurAmount, flipHorizontal);
+
+
+    }
 }
